@@ -4,11 +4,40 @@
 #include <time.h>
 #include "pedido.h"
 #include "menu.h"
+#include "usuarios.h"
 
 PEDIDO * raiz = NULL;
+USUARIO * user[8];
 
 int main()
 {
+    //Secretários
+    user[0]->usuario_nome = "Davi";
+    user[0]->usuario_cpf = "123";
+    user[0]->usuario_senha = "123";
+    user[1]->usuario_nome = "Maria";
+    user[1]->usuario_cpf = "456";
+    user[1]->usuario_senha = "654";
+    user[2]->usuario_nome = "Riam";
+    user[2]->usuario_cpf = "789";
+    user[2]->usuario_senha = "987";
+    //Transportadores
+    user[3]->usuario_nome = "Artur";
+    user[3]->usuario_cpf = "789";
+    user[3]->usuario_senha = "987";
+    user[4]->usuario_nome = "Camila";
+    user[4]->usuario_cpf = "147";
+    user[4]->usuario_senha = "741";
+    user[5]->usuario_nome = "Bruno";
+    user[5]->usuario_cpf = "258";
+    user[5]->usuario_senha = "852";
+    user[6]->usuario_nome = "Isabella";
+    user[6]->usuario_cpf = "369";
+    user[6]->usuario_senha = "963";
+    user[7]->usuario_nome = "Ana";
+    user[7]->usuario_cpf = "159";
+    user[7]->usuario_senha = "951";
+
     int opcao;
 
     do
@@ -132,7 +161,10 @@ void operacoes_secretario(void)
 
         case 3:
             printf("\n=== ADICIONAR ENCOMENDA ===\n\n");
-            //adicionar encomenda na lista encadeada
+            if (verifica_usuario() == true)
+            {
+                //adicionar encomenda na lista encadeada
+            }
             break;
 
         case 4:
@@ -187,7 +219,10 @@ void operacoes_transportador(void)
 
         case 2:
             printf("\n=== REMOVER ENCOMENDA ===\n\n");
-            //adicionar encomenda na lista encadeada
+            if (verifica_usuario() == true)
+            {
+                //remover encomenda na lista encadeada
+            }
             break;
 
         }
@@ -341,7 +376,7 @@ PEDIDO * abb_excluir_pedido(PEDIDO *raiz, int pedido_id)
             PEDIDO * aux = raiz->esq;
             while (raiz->dir != NULL)
             {
-                aux = raiz ->dir;
+            aux = raiz ->dir;
             }
             raiz->pedido_id = aux->pedido_id;
             aux->pedido_id = pedido_id;
@@ -350,7 +385,6 @@ PEDIDO * abb_excluir_pedido(PEDIDO *raiz, int pedido_id)
         return raiz;        
     }
 }
-
 void imprimir_arvore(PEDIDO * aux)
 {
    if(aux->esq != NULL){
@@ -365,7 +399,21 @@ void imprimir_arvore(PEDIDO * aux)
     } 
 }
 
+bool verifica_usuario()
+{
+    char usuario_cpf[11];
+    char usuario_senha[20];
 
-
+    for (int i = 0; i < 8; i++)
+    {
+        if ((strcmp(usuario_cpf, user[i]->usuario_cpf)) && (strcmp(usuario_senha, user[i]->usuario_senha)))
+        {
+            printf("\nRegistro Encontrado!\n");
+            return true;
+        }        
+    }
+    printf("\nSenha incorreta\n");
+    return false;
+}
 
 
