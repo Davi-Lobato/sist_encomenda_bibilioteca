@@ -1,25 +1,253 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
+#include <time.h>
 #include "pedido.h"
+#include "menu.h"
 
 PEDIDO * raiz = NULL;
 
 int main()
 {
-    //testando
-    char nome[15];
-    char desc[15];
-    printf("nome: ");
-    scanf("%s", &nome);
-    printf("desc: ");
-    scanf("%s", &desc);
-    abb_add_pedido(1, &nome, 511384, &desc);
-    abb_bucar_pedido(1, raiz);
-    imprimir_arvore(raiz);
-    abb_excluir_pedido(raiz, 1);
-    abb_bucar_pedido(1, raiz);
-    imprimir_arvore(raiz);
+    int opcao;
+
+    do
+    {
+        opcao = menu();
+        switch (opcao)
+        {
+
+        case 1:
+            printf("\n===Estagiario===\n\n");
+            operacoes_estagiario();
+            break;
+
+        case 2:
+            printf("\n===Secretario===\n\n");
+            operacoes_secretario();
+            break;
+
+        case 3:
+            printf("\n===Transportador===\n\n");
+            operacoes_transportador();
+            break;
+
+        }
+    } while (opcao != 0);
+    system("pause");
     return 0;
+}
+
+// Menu de Opcoes
+int menu(void)
+{
+    int opcao;
+    do
+    {
+
+        printf("\n\n=== MENU DE LOGIN ===\n\n");
+        printf("1. Estagiario\n");
+        printf("2. Secretario\n");
+        printf("3. Transportador\n");
+        printf("0. Sair\n\n");
+        printf("Digite sua opcao: ");
+        scanf("%d", &opcao);
+
+        if ((opcao < 0) || (opcao > 4))
+            printf("por favor, inserir um numero valido!\\n");
+
+    } while ((opcao < 0) || (opcao > 4));
+
+    return opcao;
+}
+
+//chamada das funções após a utilização da função menu_estágiario
+void operacoes_estagiario(void)
+{
+    int opcao;
+
+    do
+    {
+        opcao = menu_estagiario();
+        switch (opcao)
+        {
+
+        case 1:
+            printf("\n=== ADICIONAR ===\n\n");
+            carregar_pedido();
+            break;
+
+        case 2:
+            printf("\n=== IMPRIMIR ===\n\n");
+            imprimir_arvore(raiz);
+            break;
+
+        }
+    } while (opcao != 0);
+    system("pause");
+}
+// menu que contém as operacoes que o estagiário pode fazer
+int menu_estagiario(void)
+{
+    int opcao;
+    do
+    {
+        printf("\n\n=== OPERACOES ===\n\n");
+        printf("1. imprimir pedidos\n");
+        printf("2. adicionar pedidos\n");
+        printf("0. Sair\n\n");
+        printf("Digite sua opcao: ");
+        scanf("%d", &opcao);
+
+        if ((opcao < 0) || (opcao > 3))
+            printf("por favor, inserir um numero valido!\\n");
+
+    } while ((opcao < 0) || (opcao > 3));
+
+    return opcao;
+}
+
+//chamada das funções após a utilização da função menu_secretario
+void operacoes_secretario(void)
+{
+
+    /*falta verificar se tem opção de acessar a pagina, fazer um if aqui:*/
+    int opcao;
+
+    do
+    {
+        opcao = menu_secretario();
+        switch (opcao)
+        {
+
+        case 1:
+            printf("\n=== IMPRIMIR ENCOMENDA ===\n\n");
+            //imprimir encomenda da lista encadeada
+            break;
+
+        case 2:
+            printf("\n=== IMPRIMIR PEDIDO ===\n\n");
+            imprimir_arvore(raiz);
+            break;
+
+        case 3:
+            printf("\n=== ADICIONAR ENCOMENDA ===\n\n");
+            //adicionar encomenda na lista encadeada
+            break;
+
+        case 4:
+            printf("\n=== RETIRAR PEDIDO ===\n\n");
+            retirar_pedido();
+            break;
+
+        }
+    } while (opcao != 0);
+    system("pause");
+}
+// menu que contém as operacoes que o secretario pode fazer
+int menu_secretario(void)
+{
+    int opcao;
+    do
+    {
+        printf("\n\n=== OPERACOES ===\n\n");
+        printf("1. imprimir encomendas\n");
+        printf("2. imprimir pedidos\n");
+        printf("3. adicionar encomenda\n");
+        printf("4. retirar pedido\n");
+        printf("0. Sair\n\n");
+        printf("Digite sua opcao: ");
+        scanf("%d", &opcao);
+
+        if ((opcao < 0) || (opcao > 5))
+            printf("por favor, inserir um numero valido!\\n");
+
+    } while ((opcao < 0) || (opcao > 5));
+
+    return opcao;
+}
+
+//chamada das funções após a utilização da função menu_trasnportador
+void operacoes_transportador(void)
+{
+
+    /*falta verificar se tem opção de acessar a pagina, fazer ou um if ou uma funcao aqui:*/
+    int opcao;
+
+    do
+    {
+        opcao = menu_transportador();
+        switch (opcao)
+        {
+
+        case 1:
+            printf("\n=== IMPRIMIR ENCOMENDA ===\n\n");
+            //imprimir encomenda da lista encadeada
+            break;
+
+        case 2:
+            printf("\n=== REMOVER ENCOMENDA ===\n\n");
+            //adicionar encomenda na lista encadeada
+            break;
+
+        }
+    } while (opcao != 0);
+    system("pause");
+}
+// menu que contém as operacoes que o transportador pode fazer
+int menu_transportador(void)
+{
+    int opcao;
+    do
+    {
+        printf("\n\n=== OPERACOES ===\n\n");
+        printf("1. imprimir encomendas\n");
+        printf("2. retirar encomendas\n");
+        printf("0. Sair\n\n");
+        printf("Digite sua opcao: ");
+        scanf("%d", &opcao);
+
+        if ((opcao < 0) || (opcao > 3))
+            printf("por favor, inserir um numero valido!\\n");
+
+    } while ((opcao < 0) || (opcao > 3));
+
+    return opcao;
+}
+
+//Pergunta para o usuário qual vertice da pedido da arvore ele quer retirar
+void retirar_pedido(void)
+{
+    int pedido_id;
+
+    printf("\nDigite o numero que deseja retirar: ");
+    scanf("%d", pedido_id);
+    abb_excluir_pedido(raiz, pedido_id);
+}
+
+/*carrega os valores do pedido em variaveis e passa como parametro
+para a função adicionar na arvore
+*/
+void carregar_pedido(void)
+{
+    int pedido_id = 0;
+    char *pedido_nome = malloc(55);
+    int pedido_matricula = 0;
+    char *pedido_descricao = malloc(500);
+    
+    srand(time(NULL));//impede que repita o mesmo valor aleatório
+
+    pedido_id = (rand() % 100);//gera um valor aleatório de 0 a 100
+    printf(" %d\n", pedido_id);
+
+    printf("Digite o nome do aluno: \n");
+    scanf("%s", pedido_nome);
+    printf("Digite o a matricula do aluno: \n");
+    scanf("%d", &pedido_matricula);
+    printf("Digite os dados do pedido: \n");
+    scanf("%s", pedido_descricao);
+
+    abb_add_pedido(pedido_id, pedido_nome, pedido_matricula, pedido_descricao);
 }
 
 PEDIDO * abb_bucar_pedido(int pedido_id, PEDIDO *aux)
@@ -77,6 +305,7 @@ PEDIDO * abb_excluir_pedido(PEDIDO *raiz, int pedido_id)
 {
     if (raiz == NULL)
     {
+        printf("nó não existe na árvore");
         return NULL;
     }
     else if (raiz->pedido_id > pedido_id)
@@ -91,8 +320,9 @@ PEDIDO * abb_excluir_pedido(PEDIDO *raiz, int pedido_id)
     {
         if (raiz->esq == NULL && raiz->dir ==NULL)
         {
+            printf("\n\nentrou aqui");
             free(raiz);
-            raiz = NULL;
+            raiz->pedido_id = NULL;
         }
         else if (raiz->esq == NULL)
         {
@@ -124,14 +354,14 @@ PEDIDO * abb_excluir_pedido(PEDIDO *raiz, int pedido_id)
 void imprimir_arvore(PEDIDO * aux)
 {
    if(aux->esq != NULL){
-        in_ordem(aux->esq);
+        imprimir_arvore(aux->esq);
     }
     printf("%d\n", aux->pedido_id);
     printf("%s\n", aux->pedido_nome_aluno);
     printf("%d\n", aux->pedido_matricula);
     printf("%s\n", aux->pedido_descricao);
     if(aux->dir != NULL){
-        in_ordem(aux->dir);
+        imprimir_arvore(aux->dir);
     } 
 }
 
