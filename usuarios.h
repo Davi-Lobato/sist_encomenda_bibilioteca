@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 typedef struct usuario
 {
-    char *usuario_nome;
-    char *usuario_cpf;
-    char *usuario_senha;
-    char *usuario_chave;
+    char usuario_nome[20];
+    char usuario_cpf[11];
+    char usuario_senha[10];
+    char usuario_chave[10];
 }USUARIO;
 
-bool verifica_usuario(void);
+//int verifica_usuario(void);

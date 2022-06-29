@@ -8,13 +8,13 @@
 
 
 PEDIDO * raiz = NULL;
-USUARIO * user[8];
+//USUARIO * user[8];
 ENCOMENDA * inicio = NULL;
 ENCOMENDA * fim = NULL;
 
 int main()
 {
-    //Secretários
+    /*//Secretários
     user[0] = (USUARIO*){"Davi", "123", "321", "S001"};
     user[1] = (USUARIO*){"Maria", "456", "654", "S002"};
     user[2] = (USUARIO*){"Riam", "789", "987", "S003"};
@@ -23,7 +23,7 @@ int main()
     user[4] = (USUARIO*){"Jorge", "258", "852", "T002"};
     user[5] = (USUARIO*){"Bruno", "369", "963", "T003"};
     user[6] = (USUARIO*){"Isabella", "159", "951", "T004"};
-    user[7] = (USUARIO*){"Ana", "753", "357", "T005"};
+    user[7] = (USUARIO*){"Ana", "753", "357", "T005"};  */
     
 
     int opcao;
@@ -147,10 +147,7 @@ void operacoes_secretario(void)
 
         case 3:
             printf("\n=== ADICIONAR ENCOMENDA ===\n\n");
-            if (verifica_usuario() == true)
-            {
-                carregar_pedido_secretario();
-            }
+            carregar_pedido_secretario();           
             break;
 
         case 4:
@@ -205,10 +202,7 @@ void operacoes_transportador(void)
 
         case 2:
             printf("\n=== REMOVER ENCOMENDA ===\n\n");
-            if (verifica_usuario() == true)
-            {
-                lista_excluir_encomenda();
-            }
+            lista_excluir_encomenda();
             break;
 
         }
@@ -242,7 +236,7 @@ void abb_retirar_pedido(void)
     int pedido_id;
 
     printf("\nDigite o ID que deseja retirar: ");
-    scanf("%d", pedido_id);
+    scanf("%d", &pedido_id);
     abb_excluir_pedido(raiz, pedido_id);
 }
 
@@ -259,13 +253,12 @@ void carregar_pedido_estagiario(void)
     srand(time(NULL));//impede que repita o mesmo valor aleatório
 
     pedido_id = (rand() % 100);//gera um valor aleatório de 0 a 100
-    printf(" %d\n", pedido_id);
 
-    printf("Digite o nome do aluno: \n");
+    printf("Digite o nome do aluno: ");
     scanf("%s", pedido_nome);
-    printf("Digite o a matricula do aluno: \n");
+    printf("Digite o a matricula do aluno: ");
     scanf("%d", &pedido_matricula);
-    printf("Digite os dados do pedido: \n");
+    printf("Digite os dados do pedido:");
     scanf("%s", pedido_descricao);
 
     abb_add_pedido(pedido_id, pedido_nome, pedido_matricula, pedido_descricao);
@@ -273,28 +266,39 @@ void carregar_pedido_estagiario(void)
 
 PEDIDO * abb_bucar_pedido(int pedido_id, PEDIDO *aux)
 {
-    if(aux != NULL){
-        if(aux->pedido_id == pedido_id){
+    if(aux != NULL)
+    {
+        if(aux->pedido_id == pedido_id)
+        {
             return aux;
-        }else if(pedido_id < aux->pedido_id){
-            if(aux->esq != NULL){
+        }
+        else if(pedido_id < aux->pedido_id)
+        {
+            if(aux->esq != NULL)
+            {
                 return abb_bucar_pedido(pedido_id, aux->esq);
-            }else{
-                return aux;
             }
-        }else if(pedido_id > aux->pedido_id){
-            if(aux->dir != NULL){
-                return abb_bucar_pedido(pedido_id, aux->dir);
-            }else{
+            else
+            {
                 return aux;
             }
         }
-    }else{
-        return NULL;
-    }   
+        else if(pedido_id > aux->pedido_id)
+        {
+            if(aux->dir != NULL)
+            {
+                return abb_bucar_pedido(pedido_id, aux->dir);
+            }
+            else
+            {
+                return aux;
+            }
+        }
+    }
+    return NULL;
 }
 
-PEDIDO * abb_add_pedido(int pedido_id, char *pedido_nome_aluno, int pedido_matricula, char *pedido_descricao)
+void abb_add_pedido(int pedido_id, char *pedido_nome_aluno, int pedido_matricula, char *pedido_descricao)
 {
     PEDIDO* buscador = abb_bucar_pedido(pedido_id, raiz);
     
@@ -326,7 +330,7 @@ PEDIDO * abb_excluir_pedido(PEDIDO *raiz, int pedido_id)
 {
     if (raiz == NULL)
     {
-        printf("nó não existe na árvore");
+        printf("no nao existe na arvore");
         return NULL;
     }
     else if (raiz->pedido_id > pedido_id)
@@ -341,9 +345,8 @@ PEDIDO * abb_excluir_pedido(PEDIDO *raiz, int pedido_id)
     {
         if (raiz->esq == NULL && raiz->dir ==NULL)
         {
-            printf("\n\nentrou aqui");
-            free(raiz);
-            raiz->pedido_id = NULL;
+            free(raiz);///////////////////////////////////////////////////////
+            raiz = NULL;
         }
         else if (raiz->esq == NULL)
         {
@@ -351,7 +354,7 @@ PEDIDO * abb_excluir_pedido(PEDIDO *raiz, int pedido_id)
             raiz = raiz->dir;
             free(aux);
         }
-        else if (raiz->dir)
+        else if (raiz->dir == NULL)
         {
             PEDIDO * aux = raiz;
             raiz = raiz->esq;
@@ -367,25 +370,35 @@ PEDIDO * abb_excluir_pedido(PEDIDO *raiz, int pedido_id)
             raiz->pedido_id = aux->pedido_id;
             aux->pedido_id = pedido_id;
             raiz->esq = abb_excluir_pedido(raiz->esq, pedido_id);   
-        }
-        return raiz;        
+        }        
     }
+    raiz = NULL;
+    return raiz;
 }
+
 void abb_imprimir(PEDIDO * aux)
 {
-   if(aux->esq != NULL){
+    if (aux->pedido_id != NULL)
+    {
+        if(aux->esq != NULL){
         abb_imprimir(aux->esq);
+        }
+        printf("Pedido: \n");
+        printf("%d\n", aux->pedido_id);
+        printf("%s\n", aux->pedido_nome_aluno);
+        printf("%d\n", aux->pedido_matricula);
+        printf("%s\n\n", aux->pedido_descricao);
+        if(aux->dir != NULL){
+            abb_imprimir(aux->dir);
+        }
     }
-    printf("%d\n", aux->pedido_id);
-    printf("%s\n", aux->pedido_nome_aluno);
-    printf("%d\n", aux->pedido_matricula);
-    printf("%s\n", aux->pedido_descricao);
-    if(aux->dir != NULL){
-        abb_imprimir(aux->dir);
+    else
+    {
+        printf("nao encontrado\n");
     } 
 }
 
-bool verifica_usuario()
+/*int verifica_usuario()
 {
     char usuario_cpf[11];
     char usuario_senha[20];
@@ -398,56 +411,64 @@ bool verifica_usuario()
     printf("Digite sua chave: ");
     scanf("%s", usuario_chave);
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 2; i++)
     {
-        if ((strcmp(usuario_cpf, user[i]->usuario_cpf)) && (strcmp(usuario_senha, user[i]->usuario_senha)) && (strcmp(usuario_chave, user[i]->usuario_chave)))
+        if ((usuario_cpf == user[i]->usuario_cpf) && (usuario_senha == user[i]->usuario_senha) && (usuario_chave == user[i]->usuario_chave))
         {
             printf("\nRegistro Encontrado!\n");
-            return true;
+            return 1;
         }        
+        else
+        {
+            printf("\nSenha incorreta\n");
+            return 0;
+        }
+        
     }
-    printf("\nSenha incorreta\n");
-    return false;
-}
+}*/
 
 void carregar_pedido_secretario()
 {
     int pedido_id;
-    char pedido_remetente = malloc(20);
-    char pedido_destinatario = malloc(20);
-    char pedido_responsavel_secretario = malloc(30);
+    char pedido_remetente[20];
+    char pedido_destinatario[20];
+    char pedido_responsavel_secretario[20];
     unsigned short int pedido_prioridade = 0;
 
-    printf("Digite o ID do pedido: \n");
+    printf("Digite o ID do pedido: ");
     scanf("%d", &pedido_id);
-    printf("Digite a localizacao do livro: \n");
+    printf("Digite a localizacao do livro: ");
     scanf("%s", pedido_remetente);
-    printf("Digite a localizacao do aluno: \n");
+    printf("Digite a localizacao do aluno: ");
     scanf("%s", pedido_destinatario);
-    printf("Digite o nome do responsavel(secretario atual): \n");
+    printf("Digite o nome do responsavel(secretario atual): ");
     scanf("%s", pedido_responsavel_secretario);
-    printf("Digite a prioridade (0 - 100): \n");
+    printf("Digite a prioridade (0 - 100): ");
     scanf("%hu", &pedido_prioridade);
     
     lista_add_encomenda(abb_bucar_pedido(pedido_id, raiz), pedido_remetente, pedido_destinatario, pedido_responsavel_secretario, pedido_prioridade);
-    abb_excluir_pedido(raiz, pedido_id);
+    abb_excluir_pedido(raiz, pedido_id); 
+    
 }
 
-void lista_add_encomenda(PEDIDO * pedido, char * pedido_remetente, char * pedido_destinatario, char * pedido_responsavel_secretario, unsigned short int pedido_prioridade)
+void lista_add_encomenda(PEDIDO * pedido, char *pedido_remetente, char *pedido_destinatario, char *pedido_responsavel_secretario, unsigned short int pedido_prioridade)
 {
-    PEDIDO * pEncomenda = malloc(sizeof(PEDIDO));
+    PEDIDO * Encomenda = malloc(sizeof(PEDIDO));
 
-    pEncomenda->pedido_id = pedido->pedido_id;
-    pEncomenda->pedido_nome_aluno = pedido->pedido_nome_aluno;
-    pEncomenda->pedido_matricula = pedido->pedido_matricula;
-    pEncomenda->pedido_descricao = pedido->pedido_descricao;
-    pEncomenda->pedido_remetente = pedido_remetente;
-    pEncomenda->pedido_destinatario = pedido_destinatario;
-    pEncomenda->pedido_responsavel_secretario = pedido_responsavel_secretario;
-    pEncomenda->pedido_prioridade = pedido_prioridade;
+    Encomenda->pedido_id = pedido->pedido_id;
+    Encomenda->pedido_nome_aluno = pedido->pedido_nome_aluno;
+    Encomenda->pedido_matricula = pedido->pedido_matricula;
+    Encomenda->pedido_descricao = pedido->pedido_descricao;
+    Encomenda->pedido_remetente = pedido_remetente;
+    Encomenda->pedido_destinatario = pedido_destinatario;
+    Encomenda->pedido_responsavel_secretario = pedido_responsavel_secretario;
+    Encomenda->pedido_prioridade = pedido_prioridade;
 
-    ENCOMENDA * menor, * novo, * maior = malloc(sizeof(ENCOMENDA));
-    novo->pEncomenda = pEncomenda;
+    ENCOMENDA * novo = malloc(sizeof(ENCOMENDA));
+
+    ENCOMENDA * menor, * maior = malloc(sizeof(ENCOMENDA));
+
+    novo->pEncomenda = Encomenda;
     novo->prox = NULL;
 
     if (inicio == NULL)
@@ -460,7 +481,7 @@ void lista_add_encomenda(PEDIDO * pedido, char * pedido_remetente, char * pedido
     else
     {
         menor = inicio;
-        while (menor != NULL && menor->pEncomenda->pedido_prioridade > novo->pEncomenda->pedido_prioridade);
+        while (menor != NULL && menor->pEncomenda->pedido_prioridade > novo->pEncomenda->pedido_prioridade)
         {
             maior = menor;
             menor = menor->prox;
@@ -492,6 +513,7 @@ PEDIDO lista_excluir_encomenda()
         encomenda.pedido_id = lixo->pEncomenda->pedido_id;
         printf("\n\n excluido \n");
         printf("Aluno: %s\n", lixo->pEncomenda->pedido_nome_aluno);
+        printf("ID: %s\n", lixo->pEncomenda->pedido_id);
         free(lixo);
         lista_tamanho--;
         if (lista_tamanho == 1)

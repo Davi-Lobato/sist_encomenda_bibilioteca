@@ -32,10 +32,10 @@ void abb_retirar_pedido(void);
 void carregar_pedido_estagiario(void);
 void carregar_pedido_secretario(void);
 PEDIDO * abb_bucar_pedido(int pedido_id, PEDIDO *aux);
-PEDIDO * abb_add_pedido(int pedido_id, char *pedido_nome_aluno, int pedido_matricula, char *pedido_descricao);
+void abb_add_pedido(int pedido_id, char *pedido_nome_aluno, int pedido_matricula, char *pedido_descricao);
 PEDIDO * abb_excluir_pedido(PEDIDO *raiz, int pedido_id);
 void abb_imprimir(PEDIDO * aux);
-void lista_add_encomenda(PEDIDO * pedido, char * pedido_remetente, char * pedido_destinatario, char * pedido_responsavel_secretario, unsigned short int pedido_prioridade);
+void lista_add_encomenda(PEDIDO * pedido, char *pedido_remetente, char *pedido_destinatario, char *pedido_responsavel_secretario, unsigned short int pedido_prioridade);
 PEDIDO lista_excluir_encomenda();
 void lista_imprimir();
 
