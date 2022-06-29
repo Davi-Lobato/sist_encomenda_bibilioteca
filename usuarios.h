@@ -7,6 +7,7 @@ typedef struct usuario
     char *usuario_nome;
     char *usuario_cpf;
     char *usuario_senha;
+    char *usuario_chave;
 }USUARIO;
 
 bool verifica_usuario(void);

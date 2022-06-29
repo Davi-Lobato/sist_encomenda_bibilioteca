@@ -6,21 +6,24 @@
 #include "menu.h"
 #include "usuarios.h"
 
+
 PEDIDO * raiz = NULL;
 USUARIO * user[8];
+ENCOMENDA * inicio = NULL;
+ENCOMENDA * fim = NULL;
 
 int main()
 {
     //Secretários
-    user[0] = (USUARIO*){"Davi", "123", "321"};
-    user[1] = (USUARIO*){"Maria", "456", "654"};
-    user[2] = (USUARIO*){"Riam", "789", "987"};
+    user[0] = (USUARIO*){"Davi", "123", "321", "S001"};
+    user[1] = (USUARIO*){"Maria", "456", "654", "S002"};
+    user[2] = (USUARIO*){"Riam", "789", "987", "S003"};
     //Transportadores   
-    user[3] = (USUARIO*){"Artur", "147", "741"};
-    user[4] = (USUARIO*){"Jorge", "258", "852"};
-    user[5] = (USUARIO*){"Bruno", "369", "963"};
-    user[6] = (USUARIO*){"Isabella", "159", "951"};
-    user[2] = (USUARIO*){"Ana", "753", "357"};
+    user[3] = (USUARIO*){"Artur", "147", "741", "T001"};
+    user[4] = (USUARIO*){"Jorge", "258", "852", "T002"};
+    user[5] = (USUARIO*){"Bruno", "369", "963", "T003"};
+    user[6] = (USUARIO*){"Isabella", "159", "951", "T004"};
+    user[7] = (USUARIO*){"Ana", "753", "357", "T005"};
     
 
     int opcao;
@@ -87,13 +90,13 @@ void operacoes_estagiario(void)
         {
 
         case 1:
-            printf("\n=== ADICIONAR ===\n\n");
-            carregar_pedido();
+            printf("\n=== IMPRIMIR ===\n\n");
+            abb_imprimir(raiz);
             break;
 
         case 2:
-            printf("\n=== IMPRIMIR ===\n\n");
-            imprimir_arvore(raiz);
+            printf("\n=== ADICIONAR ===\n\n");
+            carregar_pedido_estagiario();
             break;
 
         }
@@ -124,8 +127,6 @@ int menu_estagiario(void)
 //chamada das funções após a utilização da função menu_secretario
 void operacoes_secretario(void)
 {
-
-    /*falta verificar se tem opção de acessar a pagina, fazer um if aqui:*/
     int opcao;
 
     do
@@ -136,25 +137,25 @@ void operacoes_secretario(void)
 
         case 1:
             printf("\n=== IMPRIMIR ENCOMENDA ===\n\n");
-            //imprimir encomenda da lista encadeada
+            lista_imprimir();
             break;
 
         case 2:
             printf("\n=== IMPRIMIR PEDIDO ===\n\n");
-            imprimir_arvore(raiz);
+            abb_imprimir(raiz);
             break;
 
         case 3:
             printf("\n=== ADICIONAR ENCOMENDA ===\n\n");
             if (verifica_usuario() == true)
             {
-                //adicionar encomenda na lista encadeada
+                carregar_pedido_secretario();
             }
             break;
 
         case 4:
             printf("\n=== RETIRAR PEDIDO ===\n\n");
-            retirar_pedido();
+            abb_retirar_pedido();
             break;
 
         }
@@ -198,15 +199,15 @@ void operacoes_transportador(void)
         {
 
         case 1:
-            printf("\n=== IMPRIMIR ENCOMENDA ===\n\n");
-            //imprimir encomenda da lista encadeada
+            printf("\n=== IMPRIMIR ENCOMENDAS ===\n\n");
+            lista_imprimir();
             break;
 
         case 2:
             printf("\n=== REMOVER ENCOMENDA ===\n\n");
             if (verifica_usuario() == true)
             {
-                //remover encomenda na lista encadeada
+                lista_excluir_encomenda();
             }
             break;
 
@@ -236,11 +237,11 @@ int menu_transportador(void)
 }
 
 //Pergunta para o usuário qual vertice da pedido da arvore ele quer retirar
-void retirar_pedido(void)
+void abb_retirar_pedido(void)
 {
     int pedido_id;
 
-    printf("\nDigite o numero que deseja retirar: ");
+    printf("\nDigite o ID que deseja retirar: ");
     scanf("%d", pedido_id);
     abb_excluir_pedido(raiz, pedido_id);
 }
@@ -248,7 +249,7 @@ void retirar_pedido(void)
 /*carrega os valores do pedido em variaveis e passa como parametro
 para a função adicionar na arvore
 */
-void carregar_pedido(void)
+void carregar_pedido_estagiario(void)
 {
     int pedido_id = 0;
     char *pedido_nome = malloc(55);
@@ -370,17 +371,17 @@ PEDIDO * abb_excluir_pedido(PEDIDO *raiz, int pedido_id)
         return raiz;        
     }
 }
-void imprimir_arvore(PEDIDO * aux)
+void abb_imprimir(PEDIDO * aux)
 {
    if(aux->esq != NULL){
-        imprimir_arvore(aux->esq);
+        abb_imprimir(aux->esq);
     }
     printf("%d\n", aux->pedido_id);
     printf("%s\n", aux->pedido_nome_aluno);
     printf("%d\n", aux->pedido_matricula);
     printf("%s\n", aux->pedido_descricao);
     if(aux->dir != NULL){
-        imprimir_arvore(aux->dir);
+        abb_imprimir(aux->dir);
     } 
 }
 
@@ -388,10 +389,18 @@ bool verifica_usuario()
 {
     char usuario_cpf[11];
     char usuario_senha[20];
+    char usuario_chave[5];
+
+    printf("Digite seu CPF: ");
+    scanf("%s", usuario_cpf);
+    printf("Digite sua senha: ");
+    scanf("%s", usuario_senha);
+    printf("Digite sua chave: ");
+    scanf("%s", usuario_chave);
 
     for (int i = 0; i < 8; i++)
     {
-        if ((strcmp(usuario_cpf, user[i]->usuario_cpf)) && (strcmp(usuario_senha, user[i]->usuario_senha)))
+        if ((strcmp(usuario_cpf, user[i]->usuario_cpf)) && (strcmp(usuario_senha, user[i]->usuario_senha)) && (strcmp(usuario_chave, user[i]->usuario_chave)))
         {
             printf("\nRegistro Encontrado!\n");
             return true;
@@ -401,4 +410,114 @@ bool verifica_usuario()
     return false;
 }
 
+void carregar_pedido_secretario()
+{
+    int pedido_id;
+    char pedido_remetente = malloc(20);
+    char pedido_destinatario = malloc(20);
+    char pedido_responsavel_secretario = malloc(30);
+    unsigned short int pedido_prioridade = 0;
+
+    printf("Digite o ID do pedido: \n");
+    scanf("%d", &pedido_id);
+    printf("Digite a localizacao do livro: \n");
+    scanf("%s", pedido_remetente);
+    printf("Digite a localizacao do aluno: \n");
+    scanf("%s", pedido_destinatario);
+    printf("Digite o nome do responsavel(secretario atual): \n");
+    scanf("%s", pedido_responsavel_secretario);
+    printf("Digite a prioridade (0 - 100): \n");
+    scanf("%hu", &pedido_prioridade);
+    
+    lista_add_encomenda(abb_bucar_pedido(pedido_id, raiz), pedido_remetente, pedido_destinatario, pedido_responsavel_secretario, pedido_prioridade);
+    abb_excluir_pedido(raiz, pedido_id);
+}
+
+void lista_add_encomenda(PEDIDO * pedido, char * pedido_remetente, char * pedido_destinatario, char * pedido_responsavel_secretario, unsigned short int pedido_prioridade)
+{
+    PEDIDO * pEncomenda = malloc(sizeof(PEDIDO));
+
+    pEncomenda->pedido_id = pedido->pedido_id;
+    pEncomenda->pedido_nome_aluno = pedido->pedido_nome_aluno;
+    pEncomenda->pedido_matricula = pedido->pedido_matricula;
+    pEncomenda->pedido_descricao = pedido->pedido_descricao;
+    pEncomenda->pedido_remetente = pedido_remetente;
+    pEncomenda->pedido_destinatario = pedido_destinatario;
+    pEncomenda->pedido_responsavel_secretario = pedido_responsavel_secretario;
+    pEncomenda->pedido_prioridade = pedido_prioridade;
+
+    ENCOMENDA * menor, * novo, * maior = malloc(sizeof(ENCOMENDA));
+    novo->pEncomenda = pEncomenda;
+    novo->prox = NULL;
+
+    if (inicio == NULL)
+    {
+        inicio = novo;
+        fim = novo;
+        lista_tamanho++;
+        novo->prox = NULL;
+    }
+    else
+    {
+        menor = inicio;
+        while (menor != NULL && menor->pEncomenda->pedido_prioridade > novo->pEncomenda->pedido_prioridade);
+        {
+            maior = menor;
+            menor = menor->prox;
+        }
+        
+        novo->prox = menor;
+
+        if (maior == NULL)
+        {
+            inicio = novo;
+            lista_tamanho++;
+        }
+        else
+        {
+            maior->prox = novo;
+            lista_tamanho++;
+            fim = novo;
+        }
+    }
+}
+
+PEDIDO lista_excluir_encomenda()
+{
+    PEDIDO encomenda;
+    if (inicio != NULL)
+    {
+        ENCOMENDA * lixo = inicio;
+        inicio = inicio->prox;
+        encomenda.pedido_id = lixo->pEncomenda->pedido_id;
+        printf("\n\n excluido \n");
+        printf("Aluno: %s\n", lixo->pEncomenda->pedido_nome_aluno);
+        free(lixo);
+        lista_tamanho--;
+        if (lista_tamanho == 1)
+        {
+            fim = NULL;
+        }
+    }
+    return encomenda;
+}
+
+void lista_imprimir()
+{
+    ENCOMENDA * aux = malloc(sizeof(ENCOMENDA));
+    aux = inicio;
+    while(aux != NULL)
+    {
+        printf("ID: %d\n", aux->pEncomenda->pedido_id);
+        printf("Aluno: %s\n", aux->pEncomenda->pedido_nome_aluno);
+        printf("Matricula: %d\n", aux->pEncomenda->pedido_matricula);
+        printf("Descricao: %s\n", aux->pEncomenda->pedido_descricao);
+        printf("Remetente: %s\n", aux->pEncomenda->pedido_remetente);
+        printf("Destinatario: %s\n", aux->pEncomenda->pedido_destinatario);
+        printf("Responsavel: %s\n", aux->pEncomenda->pedido_responsavel_secretario);
+        printf("Prioridade: %hu\n", aux->pEncomenda->pedido_prioridade);
+        printf("tamanho da lista: %d\n", lista_tamanho);
+        aux = aux->prox;
+    }
+}
 
