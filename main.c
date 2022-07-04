@@ -515,9 +515,9 @@ PEDIDO lista_excluir_encomenda()
         ENCOMENDA * lixo = inicio;
         inicio = inicio->prox;
         encomenda.pedido_id = lixo->pEncomenda->pedido_id;
-        printf("\n\n excluido \n");
+        printf("\n\n Pedido Excluido \n");
         printf("Aluno: %s\n", lixo->pEncomenda->pedido_nome_aluno);
-        printf("ID: %s\n", lixo->pEncomenda->pedido_id);
+        printf("ID: %d\n", &lixo->pEncomenda->pedido_id);
         free(lixo);
         lista_tamanho--;
         if (lista_tamanho == 1)
