@@ -51,7 +51,7 @@ int main()
 
         }
     } while (opcao != 0);
-    system("pause");
+    //system("pause");
     return 0;
 }
 
@@ -59,21 +59,18 @@ int main()
 int menu(void)
 {
     int opcao;
-    do
-    {
+    printf("\n\n=== MENU DE LOGIN ===\n\n");
+    printf("1. Estagiario\n");
+    printf("2. Secretario\n");
+    printf("3. Transportador\n");
+    printf("0. Sair\n\n");
+    printf("Digite sua opcao: ");
+    scanf("%d", &opcao);
 
-        printf("\n\n=== MENU DE LOGIN ===\n\n");
-        printf("1. Estagiario\n");
-        printf("2. Secretario\n");
-        printf("3. Transportador\n");
-        printf("0. Sair\n\n");
-        printf("Digite sua opcao: ");
-        scanf("%d", &opcao);
+    if ((opcao < 0) || (opcao >= 4))
+        printf("Por favor, inserir um numero valido!\n");
 
-        if ((opcao < 0) || (opcao > 4))
-            printf("por favor, inserir um numero valido!\\n");
-
-    } while ((opcao < 0) || (opcao > 4));
+    //while ((opcao < 0) || (opcao > 4));
 
     return opcao;
 }
@@ -101,7 +98,7 @@ void operacoes_estagiario(void)
 
         }
     } while (opcao != 0);
-    system("pause");
+    //system("pause");
 }
 // menu que contém as operacoes que o estagiário pode fazer
 int menu_estagiario(void)
@@ -110,14 +107,14 @@ int menu_estagiario(void)
     do
     {
         printf("\n\n=== OPERACOES ===\n\n");
-        printf("1. imprimir pedidos\n");
-        printf("2. adicionar pedidos\n");
+        printf("1. Imprimir pedidos\n");
+        printf("2. Adicionar pedidos\n");
         printf("0. Sair\n\n");
         printf("Digite sua opcao: ");
         scanf("%d", &opcao);
 
         if ((opcao < 0) || (opcao > 3))
-            printf("por favor, inserir um numero valido!\\n");
+            printf("Por favor, inserir um numero valido!\n");
 
     } while ((opcao < 0) || (opcao > 3));
 
@@ -157,7 +154,7 @@ void operacoes_secretario(void)
 
         }
     } while (opcao != 0);
-    system("pause");
+    //system("pause");
 }
 // menu que contém as operacoes que o secretario pode fazer
 int menu_secretario(void)
@@ -166,16 +163,16 @@ int menu_secretario(void)
     do
     {
         printf("\n\n=== OPERACOES ===\n\n");
-        printf("1. imprimir encomendas\n");
-        printf("2. imprimir pedidos\n");
-        printf("3. adicionar encomenda\n");
-        printf("4. retirar pedido\n");
+        printf("1. Imprimir encomendas\n");
+        printf("2. Imprimir pedidos\n");
+        printf("3. Adicionar encomenda\n");
+        printf("4. Retirar pedido\n");
         printf("0. Sair\n\n");
         printf("Digite sua opcao: ");
         scanf("%d", &opcao);
 
         if ((opcao < 0) || (opcao > 5))
-            printf("por favor, inserir um numero valido!\\n");
+            printf("Por favor, inserir um numero valido!\n");
 
     } while ((opcao < 0) || (opcao > 5));
 
@@ -207,7 +204,7 @@ void operacoes_transportador(void)
 
         }
     } while (opcao != 0);
-    system("pause");
+    //system("pause");
 }
 // menu que contém as operacoes que o transportador pode fazer
 int menu_transportador(void)
@@ -223,7 +220,7 @@ int menu_transportador(void)
         scanf("%d", &opcao);
 
         if ((opcao < 0) || (opcao > 3))
-            printf("por favor, inserir um numero valido!\\n");
+            printf("Por favor, inserir um numero valido!\n");
 
     } while ((opcao < 0) || (opcao > 3));
 
@@ -256,16 +253,17 @@ void carregar_pedido_estagiario(void)
 
     setbuf(stdin, NULL);
     printf("Digite o nome do aluno: ");
-    //scanf("%s", pedido_nome);
-    fgets(pedido_nome, 100, stdin);
-    
+    scanf("%[^\n]s", pedido_nome);
+    //fgets(pedido_nome, 100, stdin);
+
+    //setbuf(stdin, NULL);
     printf("Digite o a matricula do aluno: ");
     scanf("%d", &pedido_matricula);
 
     setbuf(stdin, NULL);
-    printf("Digite os dados do pedido:");
-    //scanf("%s", pedido_descricao);
-    fgets(pedido_descricao, 500, stdin);
+    printf("Digite os dados do pedido: ");
+    scanf("%[^\n]s", pedido_descricao);
+    //fgets(pedido_descricao, 500, stdin);
 
     abb_add_pedido(pedido_id, pedido_nome, pedido_matricula, pedido_descricao);
 }
@@ -389,11 +387,11 @@ void abb_imprimir(PEDIDO * aux)
         if(aux->esq != NULL){
         abb_imprimir(aux->esq);
         }
-        printf("Pedido: \n");
-        printf("%d\n", aux->pedido_id);
-        printf("%s\n", aux->pedido_nome_aluno);
-        printf("%d\n", aux->pedido_matricula);
-        printf("%s\n\n", aux->pedido_descricao);
+        printf("Pedido: \n\n");
+        printf("ID: %d\n", aux->pedido_id);
+        printf("Aluno: %s\n", aux->pedido_nome_aluno);
+        printf("Matricula: %d\n", aux->pedido_matricula);
+        printf("Descricao: %s\n\n", aux->pedido_descricao);
         if(aux->dir != NULL){
             abb_imprimir(aux->dir);
         }
