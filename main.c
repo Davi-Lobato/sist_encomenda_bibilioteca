@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
+//#include <conio.h>
 #include <time.h>
 #include "pedido.h"
 #include "menu.h"
@@ -254,12 +254,18 @@ void carregar_pedido_estagiario(void)
 
     pedido_id = (rand() % 100);//gera um valor aleatório de 0 a 100
 
+    setbuf(stdin, NULL);
     printf("Digite o nome do aluno: ");
-    scanf("%s", pedido_nome);
+    //scanf("%s", pedido_nome);
+    fgets(pedido_nome, 100, stdin);
+    
     printf("Digite o a matricula do aluno: ");
     scanf("%d", &pedido_matricula);
+
+    setbuf(stdin, NULL);
     printf("Digite os dados do pedido:");
-    scanf("%s", pedido_descricao);
+    //scanf("%s", pedido_descricao);
+    fgets(pedido_descricao, 500, stdin);
 
     abb_add_pedido(pedido_id, pedido_nome, pedido_matricula, pedido_descricao);
 }
