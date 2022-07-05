@@ -380,21 +380,19 @@ PEDIDO * abb_excluir_pedido(PEDIDO *raiz, int pedido_id)
     return raiz;
 }
 
-void abb_imprimir(PEDIDO * aux)
+void imprimir_arvore(PEDIDO * aux)
 {
-    if (aux->pedido_id != NULL)
-    {
-        if(aux->esq != NULL){
-        abb_imprimir(aux->esq);
-        }
-        printf("Pedido: \n\n");
-        printf("ID: %d\n", aux->pedido_id);
-        printf("Aluno: %s\n", aux->pedido_nome_aluno);
-        printf("Matricula: %d\n", aux->pedido_matricula);
-        printf("Descricao: %s\n\n", aux->pedido_descricao);
-        if(aux->dir != NULL){
-            abb_imprimir(aux->dir);
-        }
+   if(aux->esq != NULL){
+        imprimir_arvore(aux->esq);
+    }
+    printf("=============\n");
+    printf("id..........: %d\n", aux->pedido_id);
+    printf("aluno.......: %s\n", aux->pedido_nome_aluno);
+    printf("matricula...: %d\n", aux->pedido_matricula);
+    printf("descricao...: %s\n", aux->pedido_descricao);
+    printf("=============\n");
+    if(aux->dir != NULL){
+        imprimir_arvore(aux->dir);
     }
     else
     {
