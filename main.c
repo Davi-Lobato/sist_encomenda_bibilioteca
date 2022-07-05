@@ -9,22 +9,21 @@
 
 PEDIDO * raiz = NULL;
 //USUARIO * user[8];
-ENCOMENDA * inicio = NULL;
-ENCOMENDA * fim = NULL;
+ENCOMENDA * inicio_lista_encomenda = NULL;
+ENCOMENDA * fim_lista_encomenda = NULL;
+USUARIO * inicio_lista_usuarios = NULL;
+USUARIO * fim_lista_usuarios = NULL;
 
 int main()
 {
-    /*//Secretários
-    user[0] = (USUARIO*){"Davi", "123", "321", "S001"};
-    user[1] = (USUARIO*){"Maria", "456", "654", "S002"};
-    user[2] = (USUARIO*){"Riam", "789", "987", "S003"};
-    //Transportadores   
-    user[3] = (USUARIO*){"Artur", "147", "741", "T001"};
-    user[4] = (USUARIO*){"Jorge", "258", "852", "T002"};
-    user[5] = (USUARIO*){"Bruno", "369", "963", "T003"};
-    user[6] = (USUARIO*){"Isabella", "159", "951", "T004"};
-    user[7] = (USUARIO*){"Ana", "753", "357", "T005"};  */
-    
+   lista_add_usuarios("joao pedro","11111111111","12ab","s",0);
+    lista_add_usuarios("davi","22222222222","12ab","s",0);
+    lista_add_usuarios("rafael","33333333333","12ab","s",0);
+    lista_add_usuarios("lara","44444444444","12ab","t",0);
+    lista_add_usuarios("roberto carlos","55555555555","12ab","t",0)
+    lista_add_usuarios("igor","66666666666","12ab","t",0)
+    lista_add_usuarios("tatiane","77777777777","12ab","t",0)
+    lista_add_usuarios("pedro vitor","88888888888","12ab","t",0)
 
     int opcao;
 
@@ -473,16 +472,16 @@ void lista_add_encomenda(PEDIDO * pedido, char *pedido_remetente, char *pedido_d
     novo->pEncomenda = Encomenda;
     novo->prox = NULL;
 
-    if (inicio == NULL)
+    if (inicio_lista_encomenda == NULL)
     {
-        inicio = novo;
-        fim = novo;
+        inicio_lista_encomenda = novo;
+        fim_lista_encomenda = novo;
         lista_tamanho++;
         novo->prox = NULL;
     }
     else
     {
-        menor = inicio;
+        menor = inicio_lista_encomenda;
         while (menor != NULL && menor->pEncomenda->pedido_prioridade > novo->pEncomenda->pedido_prioridade)
         {
             maior = menor;
@@ -493,14 +492,14 @@ void lista_add_encomenda(PEDIDO * pedido, char *pedido_remetente, char *pedido_d
 
         if (maior == NULL)
         {
-            inicio = novo;
+            inicio_lista_encomenda = novo;
             lista_tamanho++;
         }
         else
         {
             maior->prox = novo;
             lista_tamanho++;
-            fim = novo;
+            fim_lista_encomenda = novo;
         }
     }
 }
@@ -508,10 +507,10 @@ void lista_add_encomenda(PEDIDO * pedido, char *pedido_remetente, char *pedido_d
 PEDIDO lista_excluir_encomenda()
 {
     PEDIDO encomenda;
-    if (inicio != NULL)
+    if (inicio_lista_encomenda != NULL)
     {
-        ENCOMENDA * lixo = inicio;
-        inicio = inicio->prox;
+        ENCOMENDA * lixo = inicio_lista_encomenda;
+        inicio_lista_encomenda = inicio_lista_encomenda->prox;
         encomenda.pedido_id = lixo->pEncomenda->pedido_id;
         printf("\n\n Pedido Excluido \n");
         printf("Aluno: %s\n", lixo->pEncomenda->pedido_nome_aluno);
@@ -520,7 +519,7 @@ PEDIDO lista_excluir_encomenda()
         lista_tamanho--;
         if (lista_tamanho == 1)
         {
-            fim = NULL;
+            fim_lista_encomenda = NULL;
         }
     }
     return encomenda;
@@ -529,7 +528,7 @@ PEDIDO lista_excluir_encomenda()
 void lista_imprimir()
 {
     ENCOMENDA * aux = malloc(sizeof(ENCOMENDA));
-    aux = inicio;
+    aux = inicio_lista_encomenda;
     while(aux != NULL)
     {
         printf("ID: %d\n", aux->pEncomenda->pedido_id);
@@ -544,4 +543,60 @@ void lista_imprimir()
         aux = aux->prox;
     }
 }
+void lista_add_usuarios( char * nome, char * cpf, char * senha, char * chave , int pos){
+    if(pos >= 0 && pos <= tam_usuarios){
+        USUARIO * novo = (USUARIO*)malloc(sizeof(USUARIO));
 
+        novo->usuario_nome=(char*)malloc(sizeof(char)*50);
+        novo->usuario_senha=(char*)malloc(sizeof(char)*50);
+        novo->usuario_cpf=(char*)malloc(sizeof(char)*50);
+        novo->usuario_chave=(char*)malloc(sizeof(char)*50);
+
+        novo->usuario_senha = senha;
+        novo->usuario_cpf = cpf;
+        novo->usuario_nome = nome;
+        novo->usuario_chave = chave;
+
+        novo->prox = NULL;
+        if(inicio_lista_usuarios == NULL){ //lista vazia
+            inicio_lista_usuarios = novo;
+            fim_lista_usuarios = novo;
+            tam_usuarios++;
+        }else{
+            novo->prox = inicio_lista_usuarios;
+            inicio_lista_usuarios = novo;
+            tam_usuarios++;
+        }
+    }
+}
+
+
+bool verificar_usuario(){
+    USUARIO * aux = inicio_lista_usuarios;
+    bool verificado = false;
+    char cpf;
+    char senha;
+    char chave;
+    
+    printf("digite seu cpf");
+    scanf("%s",cpf);
+    printf("digite sua senha");
+    scanf("%s",senha);
+    printf("digite sua chave");
+    scanf("%s",chave);
+
+    for(int i = 0; i < tam_usuarios; i++){
+        if (cpf == aux->usuario_cpf && senha == aux->usuario_senha && chave == aux->usuario_chave)       
+        {
+            verificado = true;
+            return verificado;
+    
+        }
+        else if (aux->prox=NULL)
+        {
+            return verificado;
+        }
+        else
+            aux = aux->prox;
+    }
+}
