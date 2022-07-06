@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct usuario
 {
@@ -11,7 +12,7 @@ typedef struct usuario
     struct usuario * prox;
 }USUARIO;
 
-int tam_ususarios = 0;
+int tam_usuarios = 0;
 
-void lista_add_ususario(char * usurio_nome, char * usuario_cpf, char* usuario_senha, char* usuario_chave, struct usuario prox);
-bool verificar_usuario(void);
+void lista_add_usuario( char * nome, char * cpf, char * senha, char * chave , int pos);
+bool verifica_usuario(void);

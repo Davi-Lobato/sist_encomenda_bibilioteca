@@ -31,7 +31,7 @@ int lista_tamanho = 0;
 void abb_retirar_pedido(void);
 void carregar_pedido_estagiario(void);
 void carregar_pedido_secretario(void);
-PEDIDO * abb_bucar_pedido(int pedido_id, PEDIDO *aux);
+PEDIDO * abb_buscar_pedido(int pedido_id, PEDIDO *aux);
 void abb_add_pedido(int pedido_id, char *pedido_nome_aluno, int pedido_matricula, char *pedido_descricao);
 PEDIDO * abb_excluir_pedido(PEDIDO *raiz, int pedido_id);
 void abb_imprimir(PEDIDO * aux);
