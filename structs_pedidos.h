@@ -26,9 +26,7 @@ typedef struct encomenda
     struct encomenda * prox;
 }ENCOMENDA;
 
-int lista_tamanho = 0;
-
-void abb_retirar_pedido(void);
+void inicio(void);
 void carregar_pedido_estagiario(void);
 void carregar_pedido_secretario(void);
 PEDIDO * abb_buscar_pedido(int pedido_id, PEDIDO *aux);

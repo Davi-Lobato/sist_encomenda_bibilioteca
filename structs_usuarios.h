@@ -16,3 +16,4 @@ int tam_usuarios = 0;
 
 void lista_add_usuario( char * nome, char * cpf, char * senha, char * chave , int pos);
 bool verifica_usuario(void);
+void carrega_usuario(void);
